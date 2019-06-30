@@ -11,3 +11,5 @@ Step 3: Go to a customer account and you will see a button that with label "Logi
 Thats it!
 
 [![Demo](https://raw.githubusercontent.com/MathiasReker/loginascustomer/master/loginascustomer.png)](https://raw.githubusercontent.com/MathiasReker/loginascustomer/master/loginascustomer.png)
+
+## Check all my modules here: https://addons.prestashop.com/en/2_community-developer?contributor=837041
