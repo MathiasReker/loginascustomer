@@ -4,9 +4,9 @@
  *
  * NOTICE OF LICENSE
  *
- * This file is licenced under the Software License Agreement
+ * This file is licensed under the Software License Agreement
  * With the purchase or the installation of the software in your application
- * you accept the licence agreement
+ * you accept the license agreement.
  *
  * @author    Mathias R.
  * @copyright Mathias R.
@@ -23,14 +23,14 @@ class LoginAsCustomer extends Module
     {
         $this->name = 'loginascustomer';
         $this->tab = 'administration';
-        $this->version = '1.0.0';
+        $this->version = '1.0.1';
         $this->author = 'Mathias Reker';
         $this->module_key = '';
         $this->need_instance = 0;
         $this->bootstrap = true;
         parent::__construct();
         $this->displayName = $this->l('Login as customer');
-        $this->description = $this->l('Allows you login as a customer');
+        $this->description = $this->l('Allows you login as a customer.');
         $this->ps_versions_compliancy = [
             'min' => '1.7',
             'max' => _PS_VERSION_,
