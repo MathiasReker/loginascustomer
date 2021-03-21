@@ -49,7 +49,7 @@ class LoginAsCustomer extends Module
 
     public function hookDisplayAdminCustomers($params)
     {
-        $customer = new CustomerCore((int) Tools::getValue('id_customer'));
+        $customer = new Customer((int) $params['id_customer']);
         $link = $this->context->link->getModuleLink(
             $this->name,
             'login',
@@ -58,11 +58,38 @@ class LoginAsCustomer extends Module
                 'xtoken' => $this->makeToken($customer->id),
             ]
         );
-        if (!Validate::isLoadedObject($customer)) {
-            return;
-        }
+        if (!Validate::isLoadedObject($customer)) return;
 
-        return '<div class="col-lg-6"><div class="panel"><div class="panel-heading"><i class="icon-file"></i> ' . $this->l('Login As Customer') . ' <span class="badge"></span></div><div class="btn-group"><a class="btn btn-default pull-right" href="' . $link . '" target="_blank"><i class="icon-user"></i> ' . $this->l('Login as') . ' ' . $customer->firstname . ' ' . $customer->lastname . '</a></div></div></div>';
+        // Support 1.7.6+ with Symfony customer controller.
+        if (strpos(_PS_VERSION_, '1.7.6') === 0) {
+            return '
+                <div class="col">
+                    <div class="card">
+                        <h3 class="card-header">
+                            <i class="material-icons">launch</i>
+                            ' . $this->l('Login As Customer') . '
+                        </h3>
+                        <div class="card-body">
+                            <a class="btn btn-primary" href="' . $link . '" target="_blank">' . $this->l('Login as') . ' ' . $customer->firstname . ' ' . $customer->lastname . '</a>
+                        </div>
+                    </div>
+                </div>
+            ';
+        // Older versions.
+        } else {
+            return '
+                <div class="col-lg-6">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <i class="icon-file"></i> ' . $this->l('Login As Customer') . ' <span class="badge"></span>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default pull-right" href="' . $link . '" target="_blank"><i class="icon-user"></i> ' . $this->l('Login as') . ' ' . $customer->firstname . ' ' . $customer->lastname . '</a>
+                        </div>
+                    </div>
+                </div>
+            ';
+        }
     }
 
     public function makeToken($id_customer)
