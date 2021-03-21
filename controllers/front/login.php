@@ -20,7 +20,7 @@ class LoginAsCustomerLoginModuleFrontController extends ModuleFrontControllerCor
         parent::initContent();
         $id_customer = (int) Tools::getValue('id_customer');
         $token = $this->module->makeToken($id_customer);
-        if ($id_customer && (Tools::getValue('xtoken') == $token)) {
+        if ($id_customer && (Tools::getValue('xtoken') === $token)) {
             $customer = new Customer((int) $id_customer);
             if (Validate::isLoadedObject($customer)) {
                 $customer->logged = 1;

@@ -13,7 +13,7 @@
  * @license   Commercial license (You can not resell or redistribute this software.)
  */
 
-if (!defined('_PS_VERSION_')) {
+if (!\defined('_PS_VERSION_')) {
     exit;
 }
 
@@ -67,6 +67,6 @@ class LoginAsCustomer extends Module
 
     public function makeToken($id_customer)
     {
-        return md5(_COOKIE_KEY_ . $id_customer . date('Ymd'));
+        return \md5(_COOKIE_KEY_ . $id_customer . \date('Ymd'));
     }
 }
