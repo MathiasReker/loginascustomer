@@ -58,10 +58,12 @@ class LoginAsCustomer extends Module
                 'xtoken' => $this->makeToken($customer->id),
             ]
         );
-        if (!Validate::isLoadedObject($customer)) return;
+        if (!Validate::isLoadedObject($customer)) {
+            return;
+        }
 
         // Support 1.7.6+ with Symfony customer controller.
-        if (strpos(_PS_VERSION_, '1.7.6') === 0) {
+        if (0 === \strpos(_PS_VERSION_, '1.7.6')) {
             return '
                 <div class="col">
                     <div class="card">
@@ -75,9 +77,10 @@ class LoginAsCustomer extends Module
                     </div>
                 </div>
             ';
-        // Older versions.
-        } else {
-            return '
+            // Older versions.
+        }
+
+        return '
                 <div class="col-lg-6">
                     <div class="panel">
                         <div class="panel-heading">
@@ -89,7 +92,6 @@ class LoginAsCustomer extends Module
                     </div>
                 </div>
             ';
-        }
     }
 
     public function makeToken($id_customer)
