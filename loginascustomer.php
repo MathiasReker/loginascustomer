@@ -1,16 +1,10 @@
 <?php
 /**
- * 2019 Mathias R.
+ * This file is part of the loginascustomer package.
  *
- * NOTICE OF LICENSE
- *
- * This file is licensed under the Software License Agreement
- * With the purchase or the installation of the software in your application
- * you accept the license agreement.
- *
- * @author    Mathias R.
- * @copyright Mathias R.
- * @license   Commercial license (You can not resell or redistribute this software.)
+ * @author Mathias Reker
+ * @copyright Mathias Reker
+ * @license https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
 if (!\defined('_PS_VERSION_')) {
@@ -23,18 +17,17 @@ class LoginAsCustomer extends Module
     {
         $this->name = 'loginascustomer';
         $this->tab = 'administration';
-        $this->version = '1.0.1';
+        $this->version = '2.0.0';
         $this->author = 'Mathias Reker';
-        $this->module_key = '';
         $this->need_instance = 0;
+        $this->ps_versions_compliancy = [
+            'min' => '1.6',
+            'max' => _PS_VERSION_,
+        ];
         $this->bootstrap = true;
         parent::__construct();
         $this->displayName = $this->l('Login as customer');
         $this->description = $this->l('Allows you login as a customer.');
-        $this->ps_versions_compliancy = [
-            'min' => '1.7',
-            'max' => _PS_VERSION_,
-        ];
     }
 
     public function install()
@@ -58,40 +51,42 @@ class LoginAsCustomer extends Module
                 'xtoken' => $this->makeToken($customer->id),
             ]
         );
+
         if (!Validate::isLoadedObject($customer)) {
             return;
         }
 
-        // Support 1.7.6+ with Symfony customer controller.
-        if (0 === \strpos(_PS_VERSION_, '1.7.6')) {
-            return '
-                <div class="col">
-                    <div class="card">
-                        <h3 class="card-header">
-                            <i class="material-icons">launch</i>
-                            ' . $this->l('Login As Customer') . '
-                        </h3>
-                        <div class="card-body">
-                            <a class="btn btn-primary" href="' . $link . '" target="_blank">' . $this->l('Login as') . ' ' . $customer->firstname . ' ' . $customer->lastname . '</a>
-                        </div>
-                    </div>
-                </div>
-            ';
-            // Older versions.
-        }
+        $customerButtonText = \sprintf('%s %s %s', $this->l('Login as'), $customer->firstname, $customer->lastname);
+        $customerLoginText = $this->l('Login As Customer');
 
-        return '
+        if (Tools::version_compare(_PS_VERSION_, '1.7.6.0')) {
+            return '
                 <div class="col-lg-6">
                     <div class="panel">
                         <div class="panel-heading">
-                            <i class="icon-file"></i> ' . $this->l('Login As Customer') . ' <span class="badge"></span>
+                            <i class="icon-file"></i> ' . $customerLoginText . ' <span class="badge"></span>
                         </div>
                         <div class="btn-group">
-                            <a class="btn btn-default pull-right" href="' . $link . '" target="_blank"><i class="icon-user"></i> ' . $this->l('Login as') . ' ' . $customer->firstname . ' ' . $customer->lastname . '</a>
+                            <a class="btn btn-default pull-right" href="' . $link . '" target="_blank" rel="noopener noreferrer nofollow"><i class="icon-user"></i> ' . $customerButtonText . '</a>
                         </div>
                     </div>
                 </div>
             ';
+        }
+
+        return '
+            <div class="col">
+                <div class="card">
+                    <h3 class="card-header">
+                        <i class="material-icons">launch</i>
+                        ' . $customerLoginText . '
+                    </h3>
+                    <div class="card-body">
+                        <a class="btn btn-primary" href="' . $link . '" target="_blank" rel="noopener noreferrer nofollow">' . $customerButtonText . '</a>
+                    </div>
+                </div>
+            </div>
+        ';
     }
 
     public function makeToken($id_customer)

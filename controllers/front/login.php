@@ -1,16 +1,10 @@
 <?php
 /**
- * 2019 Mathias R.
+ * This file is part of the loginascustomer package.
  *
- * NOTICE OF LICENSE
- *
- * This file is licensed under the Software License Agreement
- * With the purchase or the installation of the software in your application
- * you accept the license agreement.
- *
- * @author    Mathias R.
- * @copyright Mathias R.
- * @license   Commercial license (You can not resell or redistribute this software.)
+ * @author Mathias Reker
+ * @copyright Mathias Reker
+ * @license https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
 class LoginAsCustomerLoginModuleFrontController extends ModuleFrontControllerCore
