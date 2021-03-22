@@ -33,6 +33,7 @@ class LoginAsCustomerLoginModuleFrontController extends ModuleFrontControllerCor
                 $this->context->cookie->is_guest = $customer->isGuest();
                 $this->context->cookie->passwd = $customer->passwd;
                 $this->context->cookie->email = $customer->email;
+                $this->context->updateCustomer($customer);
                 Tools::redirect('index.php?controller=my-account');
             }
         }
