@@ -18,16 +18,20 @@ class LoginAsCustomerLoginModuleFrontController extends ModuleFrontControllerCor
             $customer = new Customer((int) $id_customer);
             if (Validate::isLoadedObject($customer)) {
                 $customer->logged = 1;
-                $this->context->customer = $customer;
-                $this->context->cookie->id_customer = (int) $customer->id;
-                $this->context->cookie->customer_lastname = $customer->lastname;
-                $this->context->cookie->customer_firstname = $customer->firstname;
-                $this->context->cookie->logged = 1;
-                $this->context->cookie->check_cgv = 1;
-                $this->context->cookie->is_guest = $customer->isGuest();
-                $this->context->cookie->passwd = $customer->passwd;
-                $this->context->cookie->email = $customer->email;
-                $this->context->updateCustomer($customer);
+                if (Tools::version_compare(_PS_VERSION_, '1.7.6.6', '>=') == true) {
+                    $this->context->updateCustomer($customer);
+                }
+                else {
+                    $this->context->customer = $customer;
+                    $this->context->cookie->id_customer = (int) $customer->id;
+                    $this->context->cookie->customer_lastname = $customer->lastname;
+                    $this->context->cookie->customer_firstname = $customer->firstname;
+                    $this->context->cookie->logged = 1;
+                    $this->context->cookie->check_cgv = 1;
+                    $this->context->cookie->is_guest = $customer->isGuest();
+                    $this->context->cookie->passwd = $customer->passwd;
+                    $this->context->cookie->email = $customer->email;
+                }
                 Tools::redirect('index.php?controller=my-account');
             }
         }
